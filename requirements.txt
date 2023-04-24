@@ -1,3 +1,5 @@
 pymongo
 pandas
 python-dateutil
+fastapi
+uvicorn
