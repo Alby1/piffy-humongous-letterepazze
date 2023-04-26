@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lettere</title>
+</head>
+
+<body>
+    <style>
+        body {
+            background-color: darkslategray;
+            color: aliceblue;
+            font-family: 'Comic Sans MS', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .lettera {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            background-color: #2a4646;
+            border-radius: 20px;
+            padding: 10px 0px;
+        }
+
+        .sezione-lettera {
+            display: flex;
+            flex-direction: column;
+            width: auto;
+            background-color: #273d3d;
+            padding: 0px 10px;
+            border-radius: 10px;
+            max-width: 33%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #lettere {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+    </style>
+    <h1>Le lettere</h1>
+    <input type="text" placeholder="mittente" id="param">
+    <button onclick="getStuff()">Slettera</button>
+    <div id="default_lettera" class="lettera hidden">
+        <div class="sezione-lettera">
+            <h2>Mittente</h2>
+            <p>MITTENTE</p>
+            <p>INDIRIZZO</p>
+            <p>PARTENZA.CITTA.CITY</p>
+            <p>PARTENZA.CITTA.ZIP_CODE</p>
+            <p>PARTENZA.CITTA.COUNTY</p>
+            <p>PARTENZA.CITTA.STATE</p>
+        </div>
+        <div class="sezione-lettera">
+            <h2>Destinatario</h2>
+            <p>DESTINATARIO</p>
+            <p>INDIRIZZO</p>
+            <p>ARRIVO.CITTA.CITY</p>
+            <p>ARRIVO.CITTA.ZIP_CODE</p>
+            <p>ARRIVO.CITTA.COUNTY</p>
+            <p>ARRIVO.CITTA.STATE</p>
+        </div>
+        <div class="sezione-lettera">
+            <h2>Contenuto</h2>
+            <p>MESSAGGIO</p>
+        </div>
+    </div>
+    <div id="lettere"></div>
+    <script>
+        async function getStuff() {
+            let param = document.getElementById("param").value
+            let url = ""
+            if (param) url = `?mittente=${param}`
+            let lettere = fetch(`/lettere${url}`).then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(async data => {
+                return data
+            })
+
+
+            let default_lettera = document.getElementById("default_lettera")
+            let letterediv = document.getElementById("lettere")
+            lettere = await lettere
+            
+            letterediv.innerHTML = ""
+            for (const l of lettere) {
+                let lettera = default_lettera.cloneNode(true)
+                lettera.classList.remove("hidden")
+                console.log(l)
+                console.log(lettera)
+                let mittente = lettera.children[0]
+                mittente.children[1].innerHTML = l['mittente']
+                mittente.children[2].innerHTML = l['partenza']['indirizzo']
+                mittente.children[3].innerHTML = l['partenza']['citta']['city']
+                mittente.children[4].innerHTML = l['partenza']['citta']['zip_code']
+                mittente.children[5].innerHTML = l['partenza']['citta']['county']
+                mittente.children[6].innerHTML = l['partenza']['citta']['state']
+                let destinatario = lettera.children[1]
+                destinatario.children[1].innerHTML = l['destinatario']
+                destinatario.children[2].innerHTML = l['arrivo']['indirizzo']
+                destinatario.children[3].innerHTML = l['arrivo']['citta']['city']
+                destinatario.children[4].innerHTML = l['arrivo']['citta']['zip_code']
+                destinatario.children[5].innerHTML = l['arrivo']['citta']['county']
+                destinatario.children[6].innerHTML = l['arrivo']['citta']['state']
+                let contenuto = lettera.children[2]
+                contenuto.children[1].innerHTML = l['message']
+                letterediv.appendChild(lettera)
+            }
+        }
+
+        getStuff()
+    </script>
+</body>
+
+</html>

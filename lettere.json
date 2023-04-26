@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "643f8ccca2ac7ece8efcadca"
+  },
+  "arrivo": {
+    "citta": "642d218fb2dd7a7a8f28c2dc",
+    "indirizzo": "vai via"
+  },
+  "destinatario": "your mom",
+  "message": "sium",
+  "mittente": "Malbyx",
+  "partenza": {
+    "citta": "642d218fb2dd7a7a8f28c2dc",
+    "indirizzo": "via vai"
+  }
+},{
+  "_id": {
+    "$oid": "6448c328809ba636c0a4b301"
+  },
+  "arrivo": {
+    "citta": "642d218fb2dd7a7a8f28c2df",
+    "indirizzo": "vai via"
+  },
+  "destinatario": "francesco",
+  "message": "mi piace fare lol",
+  "mittente": "carlo",
+  "partenza": {
+    "citta": "642d218fb2dd7a7a8f28c2ef",
+    "indirizzo": "via del sium"
+  }
+}]
